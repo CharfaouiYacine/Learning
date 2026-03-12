@@ -1,15 +1,14 @@
 from tkinter import *
 tasks = []
 menu = """1) Add task
-2) Show the tasks
-3) Delete a task
-4) Mark as Done
-5) Mark as Undone
-6) Modify a task
-7) delete completed tasks
-8) Show completed tasks
-9) Show unfinished tasks
-10) Exit"""
+2) Delete a task
+3) Mark as Done
+4) Mark as Undone
+5) delete completed tasks
+6) Show completed tasks
+7) Show unfinished tasks
+8) show all tasks
+"""
 
 def add_task():
     task = task_entry.get()
