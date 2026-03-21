@@ -1,6 +1,6 @@
 import requests
 
-api_key = "4630e317616448e09e4145345262103"
+api_key = "My API key"
 def get_weather(city):
     try:
         response = requests.get(f'https://api.weatherapi.com/v1/current.json?key={api_key}&q={city}')
