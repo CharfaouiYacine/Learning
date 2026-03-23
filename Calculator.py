@@ -97,6 +97,14 @@ def equal(equation):
 
 def clear():
     result_text.set("0")
+
+def backspace():
+    if result_text.get() == "0":
+        return
+    elif len(result_text.get()) == 1:
+        result_text.set("0")
+    else:
+        result_text.set(result_text.get()[0:-1])
 """-----------------------------------------------------------------------------"""
 operations = {
         "+": add,
@@ -117,9 +125,12 @@ calculator.configure(background="#1e1e2f")
 calc_image = PhotoImage(file="calculator_9597350.png")
 result_text = tk.StringVar()
 result_text.set("0")
-result = Label(calculator,textvariable=result_text,font=("Arial",22,"bold"),bg="#2d2d44",fg="#ffffff",width=20-25,height=2-3)
-result.pack(side="top",padx=10,pady=10)
-
+sixth_row = Frame(calculator)
+result = Label(sixth_row,textvariable=result_text,font=("Arial",22,"bold"),bg="#2d2d44",fg="#ffffff",width=30,height=2-3)
+result.pack(side="left",padx=10,pady=10)
+but_bs= Button(sixth_row,text="⌫",font=("Arial",12,"bold"),bg="#d32f2f",fg="#ffffff",width=11,height=2,command=lambda :backspace())
+but_bs.pack(side="left",padx=5,pady=5)
+sixth_row.pack(pady=10)
 
 fifth_row = Frame(calculator)
 but_div = Button(fifth_row,text="/",font=("Arial",12,"bold"),bg="#3b4261",fg="#ffffff",width=10,height=2,command=lambda :but_clicked("/"))
@@ -174,6 +185,8 @@ but_point =Button(first_row,text=".",font=("Arial",12,"bold"),bg="#3b4261",fg="#
 but_point.pack(side="left",padx=5,pady=5)
 but_equal = Button(first_row,text="=",font=("Arial",12,"bold"),bg="#00c853",fg="#ffffff",width=12,height=2,command=lambda :equal(result_text.get()))
 but_equal.pack(side="left",padx=5,pady=5)
+but_bs= Button(first_row,text="⌫",font=("Arial",12,"bold"),bg="#d32f2f",fg="#ffffff",width=11,height=2,command=lambda :backspace())
+but_bs.pack(side="left",padx=5,pady=5)
 first_row.pack(pady=4)
 
 calculator.iconphoto(True, calc_image)
