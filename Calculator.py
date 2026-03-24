@@ -104,6 +104,8 @@ def clear():
     result_text.set("0")
 
 def clear_hist():
+    for calc in hist:
+        hist.remove(calc)
     history_list.delete(0, END)
 
 def backspace():
