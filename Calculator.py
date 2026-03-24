@@ -26,12 +26,13 @@ def pow(a, b):
     return a ** b
 
 def history():
+    history_list.delete(0, END)
     if not hist:
-        print("No history yet")
+        history_list.insert(0,"No history yet")
         return
     else:
         for calc in hist:
-            print(calc)
+            history_list.insert(0, calc)
 
 def but_clicked(character):
     if result_text.get()=="0":
@@ -92,11 +93,18 @@ def equal(equation):
                 break
         if arr[0] % 1 ==0:
             result_text.set(f"{int(arr[0])}")
+            hist.append(f"{equation}={int(arr[0])}")
+            history_list.insert(0, f"{equation}={int(arr[0])}")
         else:
             result_text.set(f"{arr[0]}")
+            hist.append(f"{equation}={arr[0]}")
+            history_list.insert(0,f"{equation}={arr[0]}")
 
 def clear():
     result_text.set("0")
+
+def clear_hist():
+    history_list.delete(0, END)
 
 def backspace():
     if result_text.get() == "0":
@@ -125,14 +133,28 @@ calculator.configure(background="#1e1e2f")
 calc_image = PhotoImage(file="calculator_9597350.png")
 result_text = tk.StringVar()
 result_text.set("0")
-sixth_row = Frame(calculator)
-result = Label(sixth_row,textvariable=result_text,font=("Arial",22,"bold"),bg="#2d2d44",fg="#ffffff",width=30,height=2-3)
-result.pack(side="left",padx=10,pady=10)
+
+top_frame = Frame(calculator)
+hist_frame = Frame(top_frame)
+history_text = Label(hist_frame,text="History",font=("Arial",15,"bold"),bg="#363659",fg="white",width=31,height=3)
+history_text.pack(side="left")
+but_chist= Button(hist_frame,text="🗑",font=("Arial",15),bg="#363659",fg="#ffffff",width=11,height=3,command=lambda :clear_hist())
+but_chist.pack(side="left")
+hist_frame.pack(side="top")
+history_list = Listbox(top_frame,bg="#363659",fg="white",font=("Arial",22,"bold"),width=32, height=20)
+history_list.pack(side="left")
+top_frame.pack(side="right")
+
+whole_frame = Frame(calculator,bg="#39397D")
+sixth_row = Frame(whole_frame,bg="#39397D")
+result = Label(sixth_row,textvariable=result_text,font=("Arial",22,"bold"),bg="#2d2d44",fg="#ffffff",width=25,height=2-3)
+result.pack(side="left",padx=7,pady=7)
 but_bs= Button(sixth_row,text="⌫",font=("Arial",12,"bold"),bg="#d32f2f",fg="#ffffff",width=11,height=2,command=lambda :backspace())
 but_bs.pack(side="left",padx=5,pady=5)
 sixth_row.pack(pady=10)
 
-fifth_row = Frame(calculator)
+oper_frame = Frame(whole_frame,bg="#39397D")
+fifth_row = Frame(oper_frame,bg="#39397D")
 but_div = Button(fifth_row,text="/",font=("Arial",12,"bold"),bg="#3b4261",fg="#ffffff",width=10,height=2,command=lambda :but_clicked("/"))
 but_div.pack(side="left",padx=5,pady=5)
 but_fdiv = Button(fifth_row,text="//",font=("Arial",12,"bold"),bg="#3b4261",fg="#ffffff",width=10,height=2,command=lambda :but_clicked("f"))
@@ -141,9 +163,11 @@ but_pow = Button(fifth_row,text="^",font=("Arial",12,"bold"),bg="#3b4261",fg="#f
 but_pow.pack(side="left",padx=5,pady=5)
 but_mod = Button(fifth_row,text="%",font=("Arial",12,"bold"),bg="#3b4261",fg="#ffffff",width=10,height=2,command=lambda :but_clicked("%"))
 but_mod.pack(side="left",padx=5,pady=5)
+but_his = Button(fifth_row,text="History",font=("Arial",12,"bold"),bg="#3b4261",fg="#ffffff",width=10,height=2,command=lambda :history())
+but_his.pack(side="left",padx=5,pady=5)
 fifth_row.pack(pady=4)
 
-fourth_row = Frame(calculator)
+fourth_row = Frame(oper_frame,bg="#39397D")
 but_7 = Button(fourth_row,text="7",font=("Arial",12,"bold"),bg="#3a3a5a",fg="#ffffff",width=10,height=2,command=lambda :but_clicked("7"))
 but_7.pack(side="left",padx=5,pady=5)
 but_8 = Button(fourth_row,text="8",font=("Arial",12,"bold"),bg="#3a3a5a",fg="#ffffff",width=10,height=2,command=lambda :but_clicked("8"))
@@ -154,7 +178,7 @@ but_mul = Button(fourth_row,text="*",font=("Arial",12,"bold"),bg="#3b4261",fg="#
 but_mul.pack(side="left",padx=5,pady=5)
 fourth_row.pack(pady=4)
 
-third_row = Frame(calculator)
+third_row = Frame(oper_frame,bg="#39397D")
 but_4 = Button(third_row,text="4",font=("Arial",12,"bold"),bg="#3a3a5a",fg="#ffffff",width=10,height=2,command=lambda :but_clicked("4"))
 but_4.pack(side="left",padx=5,pady=5)
 but_5 = Button(third_row,text="5",font=("Arial",12,"bold"),bg="#3a3a5a",fg="#ffffff",width=10,height=2,command=lambda :but_clicked("5"))
@@ -165,7 +189,7 @@ but_minus = Button(third_row,text="-",font=("Arial",12,"bold"),bg="#3b4261",fg="
 but_minus.pack(side="left",padx=5,pady=5)
 third_row.pack(pady=4)
 
-second_row = Frame(calculator)
+second_row = Frame(oper_frame,bg="#39397D")
 but_1 = Button(second_row,text="1",font=("Arial",12,"bold"),bg="#3a3a5a",fg="#ffffff",width=10,height=2,command=lambda :but_clicked("1"))
 but_1.pack(side="left",padx=5,pady=5)
 but_2 = Button(second_row,text="2",font=("Arial",12,"bold"),bg="#3a3a5a",fg="#ffffff",width=10,height=2,command=lambda :but_clicked("2"))
@@ -176,7 +200,7 @@ but_plus = Button(second_row,text="+",font=("Arial",12,"bold"),bg="#3b4261",fg="
 but_plus.pack(side="left",padx=5,pady=5)
 second_row.pack(pady=4)
 
-first_row = Frame(calculator)
+first_row = Frame(oper_frame,bg="#39397D")
 but_c= Button(first_row,text="C",font=("Arial",12,"bold"),bg="#d32f2f",fg="#ffffff",width=11,height=2,command=lambda :clear())
 but_c.pack(side="left",padx=5,pady=5)
 but_0= Button(first_row,text="0",font=("Arial",12,"bold"),bg="#3a3a5a",fg="#ffffff",width=10,height=2,command=lambda :but_clicked("0"))
@@ -185,10 +209,10 @@ but_point =Button(first_row,text=".",font=("Arial",12,"bold"),bg="#3b4261",fg="#
 but_point.pack(side="left",padx=5,pady=5)
 but_equal = Button(first_row,text="=",font=("Arial",12,"bold"),bg="#00c853",fg="#ffffff",width=12,height=2,command=lambda :equal(result_text.get()))
 but_equal.pack(side="left",padx=5,pady=5)
-but_bs= Button(first_row,text="⌫",font=("Arial",12,"bold"),bg="#d32f2f",fg="#ffffff",width=11,height=2,command=lambda :backspace())
-but_bs.pack(side="left",padx=5,pady=5)
 first_row.pack(pady=4)
 
+oper_frame.pack(side="right")
+whole_frame.pack(side="right")
 calculator.iconphoto(True, calc_image)
 calculator.mainloop()
 
